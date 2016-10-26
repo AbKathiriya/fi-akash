@@ -46,13 +46,22 @@ headers = ['VENTURE','DESIGNATION','FIRSTNAME','LASTNAME','EMAIL']
 writer.writerow(headers)
 # Function which scrapes investor names and emails from page
 def scrape(soup):
+    general = []
     # Find the Investor name using its id
     span = soup.find('span',id = 'ctl00_LeftColumnContentPlaceholder_txtInvestoryCompanyName')
     # Get the investor name from span text
     name = str(span.text).encode('utf-8').strip()
     print name
+    general.append(name)
+    gen_mail = soup.find('a',id = 'ctl00_LeftColumnContentPlaceholder_lnkEmail')
+    if gen_mail:
+        print gen_mail.text
+        general.append(" ")
+        general.append(" ")
+        general.append(" ")
+        general.append(str(gen_mail.text).strip())
     # Write Investor name in csv file
-    writer.writerow([name])
+    writer.writerow(general)
     # Find Div which contains investor details from webpage
     div = soup.find('div',id = 'ctl00_LeftColumnContentPlaceholder_UpdatePanel1')
     # Find the table which has all the investor names and emails
