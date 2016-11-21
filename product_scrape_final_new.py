@@ -16,7 +16,7 @@ from selenium.common.exceptions import TimeoutException
 
 url = 'http://webconnect.groupnews.com.au/'
 sheet_no = 0                        # Here you can configure sheet number, for first sheet give sheet_no = 0
-sheetname = 'office4001-4500.xls'                # Here change the filename everytime you run the script otherwise it will override the existing same xls file.
+sheetname = 'Travel & Leisure_final.xls'                # Here change the filename everytime you run the script otherwise it will override the existing same xls file.
 
 ##------------------------------------- END ---------------------------------------------##
 
@@ -62,7 +62,7 @@ def scrape_info(id):
 
 
 if __name__ == '__main__':
-    rb = open_workbook('Workbook4001-4500.xlsx')
+    rb = open_workbook('Travel & Leisure.xls')
     wb = Workbook()
     # Open login page http://webconnect.groupnews.com.au/
     driver.get(url)
@@ -94,17 +94,21 @@ if __name__ == '__main__':
             char_product_id = str(product_id)
             if(len(char_product_id) == 3):
                 char_product_id = '00'+char_product_id
-                product_id = int(char_product_id)
-                print product_id
-            else if(len(char_product_id) == 4):
+                product_id = char_product_id
+                res = scrape_info(product_id)
+                values[19] = res[0]
+                values[20] = res[1]
+            elif(len(char_product_id) == 4):
                 char_product_id = '0'+char_product_id
-                product_id = int(char_product_id)
-                print product_id
+                product_id = char_product_id
+                res = scrape_info(product_id)
+                values[19] = res[0]
+                values[20] = res[1]
         except:
             product_id = values[0]
-        res = scrape_info(product_id)
-        values.append(res[0])
-        values.append(res[1])
+
+        # values.append(res[0])
+        # values.append(res[1])
         content.append(values)
     for rowno,rowcon in enumerate(content):
         for i,val in enumerate(rowcon):
