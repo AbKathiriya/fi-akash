@@ -22,12 +22,12 @@ from selenium.common.exceptions import NoSuchElementException
 import sys
 # Here you can select all the filters. And provide the same name which is shown on web page.
 ##------------------------------- SELECT OPTIONS ----------------------------------------##
-industries = 'All'              # Default All
-regions = 'USA'                 # Default All
+industries = ['All']              # Default All
+regions = ['USA']                 # Default All
 specific_company = ''           # Default ''
 investor_type = 'All'           # Default All
 investor_status = 'Active'      # Default All
-investor_stage = 'Seed'         # Default All
+investor_stage = ['Seed','Early']         # Default All
 date_from = ''                  # Default ''
 date_to = ''                    # Default ''
 firstname = 'Graham'            # Default ''
@@ -116,11 +116,14 @@ Select(driver.find_element_by_id('ctl00_LeftColumnContentPlaceholder_drpSearchTy
 # Selcting all filters
 #-------------------------- Start filters ------------------------------------------#
 
-Select(driver.find_element_by_id('ctl00_LeftColumnContentPlaceholder_theInvestorSearchOptions_lstIndustry')).select_by_visible_text(industries)
-Select(driver.find_element_by_id('ctl00_LeftColumnContentPlaceholder_theInvestorSearchOptions_lstRegion')).select_by_visible_text(regions)
+for ind in industries:
+    Select(driver.find_element_by_id('ctl00_LeftColumnContentPlaceholder_theInvestorSearchOptions_lstIndustry')).select_by_visible_text(ind)
+for region in regions:
+    Select(driver.find_element_by_id('ctl00_LeftColumnContentPlaceholder_theInvestorSearchOptions_lstRegion')).select_by_visible_text(region)
 Select(driver.find_element_by_id('ctl00_LeftColumnContentPlaceholder_theInvestorAdvancedSearchOptions_ddlInvestorType')).select_by_visible_text(investor_type)
 Select(driver.find_element_by_id('ctl00_LeftColumnContentPlaceholder_theInvestorAdvancedSearchOptions_ddlStatus')).select_by_visible_text(investor_status)
-Select(driver.find_element_by_id('ctl00_LeftColumnContentPlaceholder_theInvestorAdvancedSearchOptions_ddlStage')).select_by_visible_text(investor_stage)
+for stage in investor_stage:
+    Select(driver.find_element_by_id('ctl00_LeftColumnContentPlaceholder_theInvestorAdvancedSearchOptions_ddlStage')).select_by_visible_text(stage)
 Select(driver.find_element_by_id('ctl00_LeftColumnContentPlaceholder_theInvestorAdvancedSearchOptions_ddlState')).select_by_visible_text(state)
 driver.find_element_by_id("ctl00_LeftColumnContentPlaceholder_theInvestorSearchOptions_txtCompany").send_keys(specific_company)
 driver.find_element_by_id("ctl00_LeftColumnContentPlaceholder_theInvestorAdvancedSearchOptions_txtDateMin").send_keys(date_from)
